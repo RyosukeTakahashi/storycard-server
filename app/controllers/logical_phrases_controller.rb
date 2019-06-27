@@ -27,7 +27,7 @@ class LogicalPhrasesController < ApplicationController
   # PATCH/PUT /logical_phrases/1
   def update
     if @logical_phrase.update(logical_phrase_params)
-      render json: @logical_phrase
+      render json: {status: "Update succeeded.", deleted: @logical_phrase}
     else
       render json: @logical_phrase.errors, status: :unprocessable_entity
     end
@@ -35,7 +35,11 @@ class LogicalPhrasesController < ApplicationController
 
   # DELETE /logical_phrases/1
   def destroy
-    @logical_phrase.destroy
+    if @logical_phrase.destroy
+      render json: {status: "Deletion succeeded.", deleted: @logical_phrase}
+    else
+      render json: @logical_phrase.errors, status: :unprocessable_entity
+    end
   end
 
   private

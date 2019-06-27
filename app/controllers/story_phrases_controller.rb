@@ -15,7 +15,7 @@ class StoryPhrasesController < ApplicationController
 
   # POST /story_phrases
   def create
-    @story_phrase = StoryPhrase.new(story_phrase_params)
+    @story_phrase = LogicalPhrase.new(story_phrase_params)
 
     if @story_phrase.save
       render json: @story_phrase, status: :created, location: @story_phrase
@@ -27,7 +27,7 @@ class StoryPhrasesController < ApplicationController
   # PATCH/PUT /story_phrases/1
   def update
     if @story_phrase.update(story_phrase_params)
-      render json: @story_phrase
+      render json: {status: "Update succeeded.", deleted: @story_phrase}
     else
       render json: @story_phrase.errors, status: :unprocessable_entity
     end
@@ -35,7 +35,11 @@ class StoryPhrasesController < ApplicationController
 
   # DELETE /story_phrases/1
   def destroy
-    @story_phrase.destroy
+    if @story_phrase.destroy
+      render json: {status: "Deletion succeeded.", deleted: @story_phrase}
+    else
+      render json: @story_phrase.errors, status: :unprocessable_entity
+    end
   end
 
   private
