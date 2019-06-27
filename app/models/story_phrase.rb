@@ -1,0 +1,2 @@
+class StoryPhrase < ApplicationRecord
+end
